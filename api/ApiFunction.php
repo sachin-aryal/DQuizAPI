@@ -11,4 +11,8 @@ class ApiFunction
     public function register(){
         return "Test Passed Successfully.......";
     }
+
+    public function login(){
+        return "Test Passed Successfully.......";
+    }
 }

@@ -47,6 +47,19 @@ else{
     switch ($actionName){
         case "REGISTER":
             $functionName = RestURI::getApiMethod($actionName);
+            if(!$functionName){
+                echo $restResult->getMethodNotFound();
+                return;
+            }
+            $fResult = call_user_func(array($apiFunction,$functionName));
+            echo $fResult;
+            break;
+        case "LOGIN":
+            $functionName = RestURI::getApiMethod($actionName);
+            if(!$functionName){
+                echo $restResult->getMethodNotFound();
+                return;
+            }
             $fResult = call_user_func(array($apiFunction,$functionName));
             echo $fResult;
             break;

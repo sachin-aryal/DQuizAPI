@@ -14,7 +14,8 @@ class RestURI
 
 
     private static $apiMethod = array(
-      "REGISTER" => "register"
+      "REGISTER" => "register",
+      "LOGIN" => "login"
     );
 
 

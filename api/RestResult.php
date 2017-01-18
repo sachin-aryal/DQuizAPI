@@ -21,4 +21,8 @@ class RestResult
         return json_encode(array("success"=>$success,"message"=>$errorMessage));
     }
 
+    public function getMethodNotFound(){
+        return json_encode(array("success"=>false,"message"=>"No mapping found for this api call."));
+    }
+
 }
