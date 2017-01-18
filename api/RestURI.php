@@ -9,13 +9,12 @@
 class RestURI
 {
     public static $URI = array(
-        "REGISTER" => 'GET',
-        "LOGIN" => 'GET');
+        "REGISTER" => 'GET'
+    );
 
 
     private static $apiMethod = array(
-      "REGISTER" => "register",
-      "LOGIN" => "login"
+      "REGISTER" => "register"
     );
 
 

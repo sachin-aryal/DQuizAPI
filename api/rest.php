@@ -34,36 +34,20 @@ if($actionName == ""){
     return;
 }
 $actionName = strtoupper($actionName);
+
+$functionName = RestURI::getApiMethod($actionName);
+if(!$functionName){
+    echo $restResult->getMethodNotFound();
+    return;
+}
+
 $requiredMethod = RestURI::getRequiredMethod($actionName);
-
 if($requiredMethod != $method){
-
     echo $restResult->getMessage(false,"The requested method is not allowed");
     return;
 }
 else{
-
     $apiFunction = new ApiFunction;
-    switch ($actionName){
-        case "REGISTER":
-            $functionName = RestURI::getApiMethod($actionName);
-            if(!$functionName){
-                echo $restResult->getMethodNotFound();
-                return;
-            }
-            $fResult = call_user_func(array($apiFunction,$functionName));
-            echo $fResult;
-            break;
-        case "LOGIN":
-            $functionName = RestURI::getApiMethod($actionName);
-            if(!$functionName){
-                echo $restResult->getMethodNotFound();
-                return;
-            }
-            $fResult = call_user_func(array($apiFunction,$functionName));
-            echo $fResult;
-            break;
-        default:
-            break;
-    }
+    $fResult = call_user_func(array($apiFunction,$functionName));
+    echo $fResult;
 }

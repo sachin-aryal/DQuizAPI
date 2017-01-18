@@ -9,10 +9,20 @@
 class ApiFunction
 {
     public function register(){
-        return "Test Passed Successfully.......";
-    }
+        $restResult = new RestResult();
+        $errorMessage = "";
+        if(!isset($_POST["userId"])){
+            $errorMessage = "userId is required parameter.";
+            return $restResult->getMessage(false,$errorMessage);
+        }
+        if(!isset($_POST["name"])){
+            $errorMessage = "name is required parameter.";
+            return $restResult->getMessage(false,$errorMessage);
+        }
+        if(!isset($_POST["loginType"])){
+            $errorMessage = "loginType is required parameter.";
+            return $restResult->getMessage(false,$errorMessage);
+        }
 
-    public function login(){
-        return "Test Passed Successfully.......";
     }
 }
