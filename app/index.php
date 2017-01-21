@@ -9,24 +9,63 @@
 ?>
 <html>
 <head>
-
+<style>
+    button{
+        float: right;
+    }
+</style>
 </head>
 <body>
-<h2>Excel File Uploader</h2>
+<h2>Dquiz File Uploader</h2>
 
 <form enctype="multipart/form-data" action="uploader/excel-upload.php" method="post" >
-
-    <label class="form-label span3" for="file">File</label>
-    <input type="file" name="file" id="file" required />
-    <br><br>
-    <input type="submit" value="Submit" />
-
+    <fieldset>
+        <legend>Upload Topics</legend>
+        <label class="form-label span3" for="file">File</label>
+        <input type="file" name="file" id="file" required />
+        <input type="hidden" name="fileType" id="fileType" value="topics"/>
+        <br><br>
+        <input type="submit" value="Submit" />
+        <button type="button" onclick="window.location='downloader/excel-download.php?w=topic'">Sample Topic Format</button>
+    </fieldset>
 </form>
 
-<button onclick="window.location='downloader/excel-download.php?w=content'">Sample Content Format</button>
-<button onclick="window.location='downloader/excel-download.php?w=question'">Sample Question Format</button>
-<button onclick="window.location='downloader/excel-download.php?w=answer'">Sample Answer Format</button>
-<button onclick="window.location='downloader/excel-download.php?w=topic'">Sample Topic Format</button>
+<form enctype="multipart/form-data" action="uploader/excel-upload.php" method="post" >
+    <fieldset>
+        <legend>Upload Contents</legend>
+        <label class="form-label span3" for="file">File</label>
+        <input type="file" name="file" id="file" required />
+        <input type="hidden" name="fileType" id="fileType" value="contents"/>
+        <br><br>
+        <input type="submit" value="Submit" />
+        <button type="button" onclick="window.location='downloader/excel-download.php?w=content'">Sample Content Format</button>
+    </fieldset>
+</form>
+
+
+<form enctype="multipart/form-data" action="uploader/excel-upload.php" method="post" >
+    <fieldset>
+        <legend>Upload Questions</legend>
+        <label class="form-label span3" for="file">File</label>
+        <input type="file" name="file" id="file" required />
+        <input type="hidden" name="fileType" id="fileType" value="questions"/>
+        <br><br>
+        <input type="submit" value="Submit" />
+        <button type="button" onclick="window.location='downloader/excel-download.php?w=question'">Sample Question Format</button>
+    </fieldset>
+</form>
+
+<form enctype="multipart/form-data" action="uploader/excel-upload.php" method="post" >
+    <fieldset>
+        <legend>Upload Answers</legend>
+        <label class="form-label span3" for="file">File</label>
+        <input type="file" name="file" id="file" required />
+        <input type="hidden" name="fileType" id="fileType" value="answers"/>
+        <br><br>
+        <input type="submit" value="Submit" />
+        <button type="button" onclick="window.location='downloader/excel-download.php?w=answer'">Sample Answer Format</button>
+    </fieldset>
+</form>
 
 </body>
 </html>
