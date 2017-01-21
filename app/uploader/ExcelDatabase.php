@@ -7,7 +7,6 @@
  * Time: 9:12 AM
  */
 
-require '../../common/Database.php';
 class ExcelDatabase
 {
     private $fileType = "";
@@ -35,6 +34,7 @@ class ExcelDatabase
     }
 
     public function addToDatabase($tableInfo){
+        require '../../common/Database.php';
         $sheet = $this->objPHPExcel->getSheet(0);
         $highestRow = $sheet->getHighestRow();
         $highestColumn = $sheet->getHighestColumn();
@@ -73,6 +73,19 @@ class ExcelDatabase
 
     public function saveContent(){
         return $this->addToDatabase(ExcelDatabase::$contentTableInfo);
+    }
+
+    public function update($doNoUpdate,$row){
+        require '../common/Database.php';
+        $database = new Database();
+        switch ($this->fileType){
+            case "questions":
+                return $database->update(ExcelDatabase::$questionTableInfo,$row,$doNoUpdate);
+                break;
+            case "topics":
+                return $database->update(ExcelDatabase::$topicTableInfo,$row,$doNoUpdate);
+                break;
+        }
     }
 
 }

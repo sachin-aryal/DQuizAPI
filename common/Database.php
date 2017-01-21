@@ -10,11 +10,18 @@ require "config.php";
 class Database
 {
 
-    public function selectQuery($sql,$params){
+    public function selectQuery($sql,$params = array()){
         $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DB);
-        $res = $conn->query($sql);
+        try{
+            if(sizeof($params) == 0){
+                $res = $conn->query($sql);
+                return $res;
+            }
+        }catch (Exception $ex){}
+        finally{
+            $conn->close();
+        }
         $conn->close();
-        return $res;
     }
 
     public function insert($tableInfo,$data){
@@ -86,6 +93,52 @@ class Database
         return $dataQuery;
     }
 
+    public function update($tableInfo,$data,$doNotUpdate){
+        $conn = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_DB);
+        $updateQuery = $this->getUpdateQuery($tableInfo,$data,$doNotUpdate);
+        try{
+            if(!mysqli_query($conn,$updateQuery)){
+                $message = array("success"=>false,"message"=>mysqli_error($conn));
+            }else{
+                $message = array("success"=>true,"message"=>"Data Updated Successfully.");
+            }
+        }catch (Exception $ex){
+            $message = array("success"=>false,"message"=>$ex->getMessage());
+        }
+        finally{
+            $conn->close();
+        }
+        return $message;
+    }
 
+    private function getUpdateQuery($tableInfo,$data,$doNotUpdate){
+        reset($tableInfo);
+        $tableName = key($tableInfo);
+        $sql = "UPDATE ".$tableName." SET ";
+        $colIndex = 0;
+        foreach ($tableInfo[$tableName] as $colName=>$dataType){
+            if($colName == $doNotUpdate){
+                $whereValue = $data[$colIndex];
+            }else{
+                $sql.= $colName."=";
+                switch ($dataType){
+                    case "i":
+                        $sql.=$data[$colIndex];
+                        break;
+                    case "s":
+                        $sql.="'$data[$colIndex]'";
+                        break;
+                    case "d":
+                        $sql.=$data[$colIndex];
+                        break;
+                }
+                $sql.=",";
+            }
+            $colIndex++;
+        }
+        $sql = rtrim($sql,",")." ";
+        $sql.=" WHERE ".$doNotUpdate." = ".$whereValue;
+        return $sql;
+    }
 
 }
