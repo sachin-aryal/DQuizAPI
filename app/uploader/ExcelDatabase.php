@@ -85,6 +85,12 @@ class ExcelDatabase
             case "topics":
                 return $database->update(ExcelDatabase::$topicTableInfo,$row,$doNoUpdate);
                 break;
+            case "answers":
+                return $database->update(ExcelDatabase::$answerTableInfo,$row,$doNoUpdate);
+                break;
+            case "contents":
+                return $database->update(ExcelDatabase::$contentTableInfo,$row,$doNoUpdate);
+                break;
         }
     }
 

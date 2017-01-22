@@ -6,7 +6,6 @@
  * Time: 1:34 PM
  */
 include '../common/Database.php';
-$result = fetchQuestionData();
 $ac = isset($_GET["ac"])?$_GET["ac"]:"";
 ?>
     <html>
@@ -23,6 +22,7 @@ $ac = isset($_GET["ac"])?$_GET["ac"]:"";
     <body>
     <?php
     if($ac =="" ){
+        $result = fetchQuestionData();
         ?>
         <table id="questions" class="mdl-data-table dataTable">
             <thead>

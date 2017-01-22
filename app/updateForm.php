@@ -36,6 +36,36 @@ if(isset($_POST["formType"])){
         $result = $excelDatabase->update($doNoUpdate,$row);
         displayMessage($result);
     }
+    else if ($formType == "contents"){
+
+        $id = $_POST["cId"];
+        $topic_id = $_POST["topic_id"];
+        $content_id = $_POST["content_id"];
+        $slide_no = $_POST["slide_no"];
+        $content_type = $_POST["content_type"];
+        $content_desc = $_POST["content_desc"];
+
+        $row = array($id,$content_id,$topic_id,$slide_no,$content_type,$content_desc);
+        $excelDatabase = new ExcelDatabase($formType,null);
+        $doNoUpdate = "id";
+        $result = $excelDatabase->update($doNoUpdate,$row);
+        displayMessage($result);
+    }else if ($formType == "answers"){
+
+        $answer_id = $_POST["answer_id"];
+        $question_id = $_POST["question_id"];
+        $answer_val = $_POST["answer_val"];
+        echo $_POST["is_correct"];
+        $is_correct = $_POST["is_correct"] == "on"?1:0;
+
+        $row = array($answer_id,$question_id,$answer_val,$is_correct);
+        $excelDatabase = new ExcelDatabase($formType,null);
+        $doNoUpdate = "answer_id";
+        $result = $excelDatabase->update($doNoUpdate,$row);
+        displayMessage($result);
+    }else{
+        echo "<p style='color: red'>Unknown form type received.</p>";
+    }
 
 
 }else{

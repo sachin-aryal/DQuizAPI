@@ -116,6 +116,10 @@ class Database
         $tableName = key($tableInfo);
         $sql = "UPDATE ".$tableName." SET ";
         $colIndex = 0;
+        if($doNotUpdate == "id" || $doNotUpdate == "answer_id"){
+            $whereValue = $data[0];
+            $colIndex++;
+        }
         foreach ($tableInfo[$tableName] as $colName=>$dataType){
             if($colName == $doNotUpdate){
                 $whereValue = $data[$colIndex];
