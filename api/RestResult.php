@@ -18,11 +18,16 @@ class RestResult
     }
 
     public function getMessage($success,$errorMessage){
-        return json_encode(array("success"=>$success,"message"=>$errorMessage));
+        return array("success"=>$success,"message"=>$errorMessage);
     }
 
     public function getMethodNotFound(){
         return json_encode(array("success"=>false,"message"=>"No mapping found for this api call."));
+    }
+
+    public function formatArray($arrayData)
+    {
+
     }
 
 }

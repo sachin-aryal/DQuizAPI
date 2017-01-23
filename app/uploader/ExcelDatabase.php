@@ -26,6 +26,10 @@ class ExcelDatabase
         "answers"=>array("question_id"=>"i","answer_val"=>"s","is_correct"=>"i")
     );
 
+    public static $userTableInfo = array(
+        "user"=>array("user_id"=>"s","user_name"=>"s","login_type"=>"s","topic_id"=>"i","slide_no"=>"i")
+    );
+
 
     function __construct($fileType,$objPHPExcel)
     {

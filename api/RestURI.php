@@ -9,7 +9,7 @@
 class RestURI
 {
     public static $URI = array(
-        "REGISTER" => 'GET'
+        "REGISTER" => 'POST'
     );
 
 
