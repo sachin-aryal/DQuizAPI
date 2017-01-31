@@ -31,11 +31,16 @@ class ApiFunction
 
         $database = new Database();
         $userExist = $this->userExist($database,$userId);
+        $userSlide = array();
         if($userExist["exist"]){
             $minTopicId = $userExist["topicId"];
+            $userSlide["topicId"] = $minTopicId;
+            $userSlide["slideNo"] = $userExist["slideNo"];
         }else{
             $minTopicId = $this->getMinTopicId($database);
             $minSlideNo = $this->getMinSlideNo($database,$minTopicId);
+            $userSlide["topicId"] = $minTopicId;
+            $userSlide["slideNo"] = $minSlideNo;
             $row = array($userId,$userName,$login_type,$minTopicId,$minSlideNo);
             $data = array($row);
             $insertResult = $database->insert(ExcelDatabase::$userTableInfo,$data);
@@ -59,7 +64,8 @@ class ApiFunction
                 "topics"=>$topics,
                 "contents"=>$contents,
                 "questions"=>$questions,
-                "answers"=>$answers
+                "answers"=>$answers,
+                "userStatus"=>$userSlide
             );
             array_push($data, array($topicId =>$topicContents));
         }
@@ -131,13 +137,13 @@ class ApiFunction
     }
 
     public function userExist($database,$userId){
-        $userQuery = "SELECT topic_id FROM user where user_id=".$userId;
+        $userQuery = "SELECT *FROM user where user_id=".$userId;
         $result = $database->selectQuery($userQuery);
         if($result->num_rows >0 ){
             $row = mysqli_fetch_assoc($result);
-            return array("exist"=>true,"topicId"=>$row["topic_id"]);
+            return array("exist"=>true,"topicId"=>$row["topic_id"],"slideNo"=>$row["slide_no"]);
         }else{
-            return array("success"=>false);
+            return array("exist"=>false);
         }
     }
 }
