@@ -49,12 +49,13 @@ class ApiFunction
             }
         }
 
-        $topicList = $this->fetchAllTopics($database);
+        $allTopics = $this->fetchAllTopics($database);
+        $allTopicsArray = array("allTopics"=>$allTopics);
         $successArray = array("success"=>true);
-        $data  =  $successArray;
+        $data  =  $successArray+$allTopicsArray;
 
-        foreach ($topicList as $topics){
-            $topicId = $topics['topic_id'];
+        foreach ($allTopics as $topicFromLoop){
+            $topicId = $topicFromLoop["topic_id"];
             $contents = $this->fetchTopicsContent($database,$topicId);
             $questions  = $this->fetchQuestions($database,$topicId);
             $answers = array();
@@ -63,14 +64,13 @@ class ApiFunction
                 $answers[$question_id] = $this->fetchAnswers($database,$question_id);
             }
             $topicContents = array(
-                "topics"=>$topics,
                 "contents"=>$contents,
                 "questions"=>$questions,
                 "answers"=>$answers
             );
             array_push($data, array($topicId =>$topicContents));
         }
-        array_push($data,array("userStatus"=>$userSlide));
+        $data+=array("userStatus"=>$userSlide);
         return $data;
     }
 
