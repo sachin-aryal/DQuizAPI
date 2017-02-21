@@ -49,14 +49,12 @@ class ApiFunction
             }
         }
 
-        $topicList = $this->fetchNeighbourTopics($database,$minTopicId);
-	$allTopics = $this->fetchAllTopics($database);
-	$allTopicsArray = array("allTopics"=>$allTopics);
+        $topicList = $this->fetchAllTopics($database);
         $successArray = array("success"=>true);
-	$data  =  $successArray+$allTopicsArray;
+        $data  =  $successArray;
 
-        foreach ($topicList as $topicId){
-            $topics = $this->fetchTopics($database,$topicId);
+        foreach ($topicList as $topics){
+            $topicId = $topics['topic_id'];
             $contents = $this->fetchTopicsContent($database,$topicId);
             $questions  = $this->fetchQuestions($database,$topicId);
             $answers = array();
@@ -68,17 +66,17 @@ class ApiFunction
                 "topics"=>$topics,
                 "contents"=>$contents,
                 "questions"=>$questions,
-                "answers"=>$answers,
-                "userStatus"=>$userSlide
+                "answers"=>$answers
             );
             array_push($data, array($topicId =>$topicContents));
         }
+        array_push($data,array("userStatus"=>$userSlide));
         return $data;
     }
 
     public function fetchAllTopics($database){
-	$superTopicQuery = "select * from topics ORDER BY topic_id ASC";
-	$res = $database->selectQuery($superTopicQuery);
+        $superTopicQuery = "select * from topics ORDER BY topic_id ASC";
+        $res = $database->selectQuery($superTopicQuery);
         $results = array();
         foreach($res as $r){
             array_push($results, $r);
@@ -106,7 +104,7 @@ class ApiFunction
         return $results;
     }
 
-    public function fetchNeighbourTopics($database,$topicId){
+    /*public function fetchNeighbourTopics($database,$topicId){
         $prevTopicQuery = "select topic_id from topics where topic_id < ".$topicId." ORDER BY  topic_id ASC LIMIT 1";
         $nextTopicQuery = "select topic_id from topics where topic_id > ".$topicId." ORDER BY  topic_id ASC LIMIT 1";
         $topicList = array();
@@ -120,7 +118,7 @@ class ApiFunction
             array_push($topicList,mysqli_fetch_assoc($nextResult)["topic_id"]);
         }
         return $topicList;
-    }
+    }*/
 
     public function fetchTopicsContent($database,$topicId){
         $contentQuery = "SELECT *FROM contents where topic_id=".$topicId;
